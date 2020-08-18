@@ -1,0 +1,43 @@
+#%RAML 1.0
+---
+title: CureMed API
+baseUri: https://anypoint.mulesoft.com/mocking/api/v1/links/b43afdf4-f7ab-43d2-affc-ac332d40fc79/ # baseUri: http://CureMed.api.com
+version: v1
+
+types:
+ patient: !include schema/CureMed-include-book.schema
+ doctor: !include schema/CureMed-include-doctor.schema
+ drugs: !include schema/CureMed-include-drugs.schema
+ admission: !include schema/CureMed-include-admission.schema
+ discharge: !include schema/CureMed-include-drugs.schema
+ treatment: !include schema/CureMed-include-treatment.schema
+
+traits:
+  searchTrait: !include traits/searchable.raml
+  pageTrait: !include  traits/pageable.raml
+  orderTrait: !include  traits/orderable.raml
+  securityTrait: !include traits/security.raml
+  requestHeaders: !include traits/requestHeaders.raml
+  FilterableByName: !include  traits/FilterableByName.raml
+  pageable: !include  traits/pageable.raml
+  fieldAware: !include traits/fieldAware.raml
+  notifiable: !include traits/fieldAware.raml
+
+
+resourceTypes:
+  collection: !include  resources/collection.resourceType.raml
+  collectionItem: !include  resources/collectionItem.resourceType.raml 
+
+
+/patients:
+  type:
+    collection:
+      exampleCollection: !include samples/CureMed-include-patient.sample
+      exampleItem: !include samples/CureMed-include-patientSingle.sample
+  get:
+    is: [
+          searchTrait: {description: "with valid searchable fields: patientID", example: "[\"patientID\", \"Get D\", \"like\"]"},
+          orderTrait: {fieldsList: "patientID"},
+          pageTrait:
+        ]
+ 
